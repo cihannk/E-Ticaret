@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "34eac891-d50d-4dbe-b0ff-5afaa1f6023e": {
+      "ProjectGuid": "34eac891-d50d-4dbe-b0ff-5afaa1f6023e",
+      "DisplayName": "ETicaretWebApi",
+      "ColorIndex": 0
+    },
+    "f3414902-fba7-4bae-a9ef-6489c97636cb": {
+      "ProjectGuid": "f3414902-fba7-4bae-a9ef-6489c97636cb",
+      "DisplayName": "DB",
+      "ColorIndex": 1
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 2
+}
