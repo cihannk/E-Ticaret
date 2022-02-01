@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3de9hbOxhxXnb32Txwvdokzejk0H8asIs00QHBsn0HLC3e04Eq5ptYjoNlGyL9aDPaOvdqy8A9oQsu3Z42Gidg==",
+  "dgSpecHash": "2DCpiRKh2T098n6oav1KsOFs7swW79SWjbtqlWkaF21D6ahQkDEICxYWfDEQSIWa1Xdi1wIDox3zlJMwtgT9oQ==",
   "success": true,
-  "projectFilePath": "c:\\Users\\Cihan\\Desktop\\eTicaret\\server\\ETicaret\\ETicaretWebApi\\ETicaretWebApi.csproj",
+  "projectFilePath": "C:\\Users\\Cihan\\Desktop\\projeler\\eTicaret\\server\\ETicaret\\ETicaretWebApi\\ETicaretWebApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Cihan\\.nuget\\packages\\automapper\\10.1.1\\automapper.10.1.1.nupkg.sha512",
     "C:\\Users\\Cihan\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\8.1.1\\automapper.extensions.microsoft.dependencyinjection.8.1.1.nupkg.sha512",

@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\ETicaretWebApi",
+    "\\ETicaretWebApi\\Application",
+    "\\ETicaretWebApi\\Application\\Operations",
+    "\\ETicaretWebApi\\Application\\Operations\\ProductOperations",
+    "\\ETicaretWebApi\\Application\\Operations\\ProductOperations\\Queries",
+    "\\ETicaretWebApi\\Application\\Operations\\ProductOperations\\Queries\\GetProductsByCategory"
+  ],
+  "SelectedNode": "\\ETicaret.sln",
+  "PreviewInSolutionExplorer": false
+}

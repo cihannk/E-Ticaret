@@ -2,6 +2,9 @@
 using ETicaretWebApi.Application.Operations.ProductOperations.Commands.CreateProduct;
 using ETicaretWebApi.Application.Operations.ProductOperations.Commands.DeleteProduct;
 using ETicaretWebApi.Application.Operations.ProductOperations.Commands.UpdateProduct;
+using ETicaretWebApi.Application.Operations.ProductOperations.Queries.GetProduct;
+using ETicaretWebApi.Application.Operations.ProductOperations.Queries.GetProducts;
+using ETicaretWebApi.Application.Operations.ProductOperations.Queries.GetProductsByCategory;
 using ETicaretWebApi.Application.ProductOperations.Commands.CreateProduct;
 using ETicaretWebApi.DbOperations;
 using ETicaretWebApi.Entitites;
@@ -25,13 +28,42 @@ namespace ETicaretWebApi.Controllers
         [HttpGet]
         public IActionResult GetProducts()
         {
-            return Ok(_context.Products.ToList());
+            GetProductsQuery query = new GetProductsQuery(_context, _mapper);
+            return Ok(query.Handle());
         }
-        //[HttpGet("{id}")]
-        //public IActionResult GetProductById(int id)
-        //{
-        //    GetProductQuery query = new GetProductQuery();
-        //}
+
+        [HttpGet("{id}")]
+        public IActionResult GetProductById(int id)
+        {
+            GetProductQuery query = new GetProductQuery(_mapper, _context);
+            query.ProductId = id;
+
+            GetProductQueryValidator validator = new GetProductQueryValidator();
+            validator.ValidateAndThrow(query);
+
+            return Ok(query.Handle());
+        }
+        [HttpGet("category/{categoryName}")]
+        public IActionResult GetProductsByCategoryName(string categoryName, [FromQuery] string ?brands, [FromQuery] string ?price)
+        {
+            GetProductsByCategoryNameQuery query = new GetProductsByCategoryNameQuery(_context, _mapper);
+            query.CategoryName = categoryName;
+
+            if (brands is not null)
+            {
+                query.Brands = brands;
+            }
+            if (price is not null)
+            {
+                query.Price = price;
+            }
+
+            GetProductsByCategoryNameQueryValidator validator = new GetProductsByCategoryNameQueryValidator();
+            validator.ValidateAndThrow(query);
+
+            return Ok(query.Handle());
+        }
+        
 
         [HttpPost]
         public IActionResult AddProduct([FromBody] CreateProductModel product)

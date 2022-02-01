@@ -5,6 +5,9 @@ using ETicaretWebApi.Services;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+IConfiguration configuration = builder.Configuration;
 
 // Add services to the container.
 
@@ -15,6 +18,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ETicaretDbContext>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSingleton<ILoggerService, ConsoleLoggerService>();
+//builder.Services.AddCors(options => options.AddPolicy("myclients", builder => builder.WithOrigins(configuration["FrontendIpAddress"], configuration["FrontendIpAddress"]).AllowAnyMethod().AllowAnyHeader()));
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+                      builder =>
+                      {
+                          builder.WithOrigins("http://localhost:3000");
+                      });
+});
 
 var app = builder.Build();
 
@@ -25,7 +38,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthorization();
 

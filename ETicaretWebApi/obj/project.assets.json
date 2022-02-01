@@ -2160,11 +2160,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Cihan\\Desktop\\eTicaret\\server\\ETicaret\\ETicaretWebApi\\ETicaretWebApi.csproj",
+      "projectUniqueName": "C:\\Users\\Cihan\\Desktop\\projeler\\eTicaret\\server\\ETicaret\\ETicaretWebApi\\ETicaretWebApi.csproj",
       "projectName": "ETicaretWebApi",
-      "projectPath": "C:\\Users\\Cihan\\Desktop\\eTicaret\\server\\ETicaret\\ETicaretWebApi\\ETicaretWebApi.csproj",
+      "projectPath": "C:\\Users\\Cihan\\Desktop\\projeler\\eTicaret\\server\\ETicaret\\ETicaretWebApi\\ETicaretWebApi.csproj",
       "packagesPath": "C:\\Users\\Cihan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Cihan\\Desktop\\eTicaret\\server\\ETicaret\\ETicaretWebApi\\obj\\",
+      "outputPath": "C:\\Users\\Cihan\\Desktop\\projeler\\eTicaret\\server\\ETicaret\\ETicaretWebApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

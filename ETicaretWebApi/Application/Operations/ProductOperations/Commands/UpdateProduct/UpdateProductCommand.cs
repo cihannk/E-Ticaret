@@ -30,6 +30,7 @@ namespace ETicaretWebApi.Application.Operations.ProductOperations.Commands.Updat
             product.Price = Model.Price == default ? product.Price : Model.Price;
             product.ColorId = Model.ColorId == default ? product.ColorId : Model.ColorId;
             product.ImageUrl = Model.ImageUrl == default ? product.ImageUrl : Model.ImageUrl;
+            product.Description = Model.Description == default ? product.Description : Model.Description;
 
             _context.SaveChanges();
         }
@@ -40,5 +41,6 @@ namespace ETicaretWebApi.Application.Operations.ProductOperations.Commands.Updat
         public double Price { get; set; }
         public int ColorId { get; set; }
         public string ImageUrl { get; set; }
+        public string Description { get; set; }
     }
 }

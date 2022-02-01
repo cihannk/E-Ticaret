@@ -18,10 +18,8 @@
 
   <ItemGroup>
     <Folder Include="Application\Operations\ColorOperations\" />
-    <Folder Include="Application\Operations\CartOperations\" />
-    <Folder Include="Application\Operations\ProductOperations\Queries\" />
     <Folder Include="Application\Operations\SliderOperations\" />
-    <Folder Include="Application\Operations\UserOperations\" />
+    <Folder Include="Application\Operations\UserOperations\Queries\" />
   </ItemGroup>
 
 </Project>
