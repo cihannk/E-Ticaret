@@ -1,7 +1,7 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
-import { productCatData } from '../fakeData'
 import ProductCategoryItem from './ProductCategoryItem'
+import { getMainPageCategories } from '../apiCalls/Category'
 
 const Container = styled.div`
     display: flex;
@@ -12,9 +12,22 @@ const Container = styled.div`
 `
 
 export default function ProductCategories() {
+    const [mainPageCategories, setMainPageCategories] = useState(null);
+    useEffect(() => {
+        if (mainPageCategories === null){
+            console.log("here");
+            getMainPageCategoriesAsync();
+        }
+        console.log(mainPageCategories);
+    }, [mainPageCategories])
+
+    const getMainPageCategoriesAsync = async () => {
+        const mainPageCategories = await getMainPageCategories();
+        setMainPageCategories(mainPageCategories.data);
+    }
     return (
         <Container>
-            {productCatData.map(item => <ProductCategoryItem key={item.id} title={item.title} img={item.img}/>)}
+            {mainPageCategories && mainPageCategories.map(item => <ProductCategoryItem key={item.id} title={item.displayName} img={item.imageUrl} pathName={item.pathName}/>)}
         </Container>
     )
 }

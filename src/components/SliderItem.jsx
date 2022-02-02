@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -43,9 +44,10 @@ const InfoButton = styled.button`
   font-size: 16px;
   font-family: inherit;
   font-weight: bold;
+  cursor: pointer;
 `;
 
-export default function SliderItem({title, desc, img}) {
+export default function SliderItem({title, desc, img, id}) {
     return (
         <Container>
           <ImgContainer>
@@ -57,7 +59,9 @@ export default function SliderItem({title, desc, img}) {
               <InfoDesc>
                 {desc}
               </InfoDesc>
-              <InfoButton>Satın Al</InfoButton>
+              <Link to={`product/${id}`}>
+                <InfoButton>Satın Al</InfoButton>
+              </Link>
             </Info>
           </InfoContainer>
         </Container>

@@ -61,7 +61,7 @@ export default function Slider() {
             <ArrowLeft/>
         </Arrow>
       <SliderWrapper slideIndex={sliderXIndex}>
-        {mainPageProducts.map(product =><SliderItem title={product.title} img={product.img} desc = {product.desc}/> )}
+        {mainPageProducts.map(product =><SliderItem title={product.title} img={product.img} desc = {product.desc} key={product.id} id={product.id}/>)}
       </SliderWrapper>
       <Arrow direction="right" onClick={()=> handleSlide("right")}>
           <ArrowRight/>

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const ProductCategory = styled.div`
   height: 60vh;
@@ -39,13 +40,15 @@ const ProductCategoryButton = styled.button`
   }
 `;
 
-export default function ProductCategoryItem({title, img}) {
+export default function ProductCategoryItem({title, img, pathName}) {
   return (
     <ProductCategory>
       <ProductCategoryImg src={img} />
       <ProductCategoryInfo>
         <ProductCategoryTitle>{title}</ProductCategoryTitle>
+        <Link to={`/products/category/${pathName}`}>
         <ProductCategoryButton>Satın Al</ProductCategoryButton>
+        </Link>
       </ProductCategoryInfo>
     </ProductCategory>
   );

@@ -7,6 +7,12 @@ import Add from "@material-ui/icons/Add";
 import Remove from "@material-ui/icons/Remove";
 import { Button, IconButton, Snackbar } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
+import { getProduct } from "../apiCalls/Product";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+
+import {userAddsProductToCart} from "../apiCalls/Cart"
+import {cartItem} from "../models/cart/cartItem";
 
 const ProductContainer = styled.div`
   padding: 100px;
@@ -97,6 +103,21 @@ const AddCartButton = styled.button`
 export default function Product() {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [amount, setAmount] = useState(1);
+  const [product, setProduct] = useState(null);
+  const [productId, setProductId] = useState(null);
+  const location = useLocation();
+
+  useEffect(()=>{
+    let locationPath = location.pathname;
+    let productId = locationPath.split("/")[2];
+    setProductId(productId);
+    getProductAsync(productId);
+  },[])
+
+  const getProductAsync = async (id) =>{
+    let product = await getProduct(id);
+    setProduct(product.data);
+  }
   const handleAmount = (way) => {
     if (way === "+") {
       setAmount((prev) => prev + 1);
@@ -104,8 +125,16 @@ export default function Product() {
       amount > 1 && setAmount((prev) => prev - 1);
     }
   };
-  const handleClick = () => {
+  const handleClick = async() => {
     setOpenSnackbar(true);
+    let newCartItem = cartItem;
+    newCartItem.cartItems[0].amount = amount;
+    newCartItem.cartItems[0].productId = productId;
+    newCartItem.userCartId = 1002;
+    console.log(newCartItem);
+    const response = await userAddsProductToCart(newCartItem);
+    console.log(response);
+
   };
   const handleClose = () => {
     setOpenSnackbar(false);
@@ -132,16 +161,13 @@ export default function Product() {
       <ProductContainer>
         <ProductWrapper>
           <ProductImgContainer>
-            <ProductImg src="https://productimages.hepsiburada.net/s/49/550/10995125452850.jpg/format:webp" />
+            <ProductImg src={product?.imageUrl} />
           </ProductImgContainer>
           <ProductInfoContainer>
-            <ProductTitle>IPhone 12</ProductTitle>
-            <ProductPrice>$ 1000</ProductPrice>
+            <ProductTitle>{product?.title}</ProductTitle>
+            <ProductPrice>{`$ ${product?.price}`}</ProductPrice>
             <ProductDesc>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Ad
-              inventore cumque tempore distinctio, dolore mollitia est iusto,
-              hic aliquam facilis deleniti eveniet perferendis dolorem corporis
-              earum dicta, quos sequi accusamus?
+              {product?.description}
             </ProductDesc>
             <ProductColorContainer>
               <ProductColor color="black" />

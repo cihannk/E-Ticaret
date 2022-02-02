@@ -9,9 +9,9 @@ export const mainPageProducts = [
     {id: 2, title: "SteelSeries Apex 3 IP32 RGB Kablolu Oyuncu Klavyesi", desc:"Suya dayanıklı Apex3, SteelSeries'in en son teknolojisini oyun odaklı özeklliklerle bir araya getirerek oluşturulan tam teşekküllü bir oyuncu klavyesidir", img:"https://productimages.hepsiburada.net/s/35/550/10471210188850.jpg/format:webp"},
     
 ]
-export const productPageProducts = [{id: 0, title: "Lenovo V15 IIL Intel Core i3 1005G1 8GB 256GB SSD Windows 10 Home 15.6", price: 4.990, img: "https://productimages.hepsiburada.net/s/50/550/11029120352306.jpg/format:webp"},
-{id: 1, title: "Huawei Matebook 13 AMD Ryzen 7 3700U 16GB 512GB SSD Windows 10 Home 13", price: 8.549, img: "https://productimages.hepsiburada.net/s/103/550/110000045971798.jpg/format:webp"},
-{id: 2, title: "HP Pavilion Gaming 15-EC2010NT Amd Ryzen 5 5600H 8GB Ddr4 256GB SSD 4G-GTX1650 Windows 10 Home 465G9EA 15.6", price: 9.149, img: "https://productimages.hepsiburada.net/s/100/550/110000043638934.jpg/format:webp"},
-{id: 3, title: "Huawei MateBook D15 Intel Core i3 10110U 8GB 256GB Windows 10 Home 15", price: 5.639, img: "https://productimages.hepsiburada.net/s/118/550/110000067124054.jpg/format:webp"},
-{id: 4, title: "Lenovo V14 Amd Ryzen 5 5500U 8GB 256GB SSD Windows 10 Home 14", price: 5.690, img: "https://productimages.hepsiburada.net/s/83/550/110000025368893.jpg/format:webp"},
-{id: 5, title: "Lenovo V14 Amd Ryzen 5 5500U 8GB 256GB SSD Windows 10 Home 14", price: 5.690, img: "https://productimages.hepsiburada.net/s/83/550/110000025368893.jpg/format:webp"},]
+export const productPageProducts = [{id: 0, title: "Lenovo V15 IIL Intel Core i3 1005G1 8GB 256GB SSD Windows 10 Home 15.6", price: 4.990, img: "https://productimages.hepsiburada.net/s/50/550/11029120352306.jpg/format:webp", amount:1},
+{id: 1, title: "Huawei Matebook 13 AMD Ryzen 7 3700U 16GB 512GB SSD Windows 10 Home 13", price: 8.549, img: "https://productimages.hepsiburada.net/s/103/550/110000045971798.jpg/format:webp", amount:1},
+{id: 2, title: "HP Pavilion Gaming 15-EC2010NT Amd Ryzen 5 5600H 8GB Ddr4 256GB SSD 4G-GTX1650 Windows 10 Home 465G9EA 15.6", price: 9.149, img: "https://productimages.hepsiburada.net/s/100/550/110000043638934.jpg/format:webp", amount:1},
+{id: 3, title: "Huawei MateBook D15 Intel Core i3 10110U 8GB 256GB Windows 10 Home 15", price: 5.639, img: "https://productimages.hepsiburada.net/s/118/550/110000067124054.jpg/format:webp", amount:1},
+{id: 4, title: "Lenovo V14 Amd Ryzen 5 5500U 8GB 256GB SSD Windows 10 Home 14", price: 5.690, img: "https://productimages.hepsiburada.net/s/83/550/110000025368893.jpg/format:webp", amount:1},
+{id: 5, title: "Lenovo V14 Amd Ryzen 5 5500U 8GB 256GB SSD Windows 10 Home 14", price: 5.690, img: "https://productimages.hepsiburada.net/s/83/550/110000025368893.jpg/format:webp", amount:2},]

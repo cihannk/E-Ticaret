@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from "react-router-dom";
 import styled from 'styled-components';
 
 const Container = styled.div`
@@ -48,10 +49,16 @@ const ProductPrice = styled.span`
     font-weight: 600;
 `
 
-export default function Product({img, title, price}) {
+export default function Product({img, title, price, id}) {
+    const history = useHistory();
+    const handleClick = () =>{
+        console.log("burada");
+        history.push(`/product/${id}`);
+        console.log(id);
+    }
     return (
         <Container>
-            <ClickableScreen/>
+            <ClickableScreen onClick={handleClick}/>
             <ProductImg src={img}/>
             <ProductTitle>{title.length < 75 ? title : title = title.slice(0,72)+ "..."}</ProductTitle>
             <ProductPriceContainer>

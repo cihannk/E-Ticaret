@@ -10,10 +10,12 @@ const Container = styled.div`
     justify-content: space-between;
 `
 
-export default function ProductList() {
+export default function ProductList({products}) {
+    console.log("pl");
+    console.log(products);
     return (
         <Container>
-            {productPageProducts.map(product => <Product title={product.title} img={product.img} price={product.price} key={product.id}/>)}
+            {/*productPageProducts*/products.map(product => <Product title={product.title} img={product.imageUrl} price={product.price} key={product.id} id={product.id}/>)}
         </Container>
     )
 }
