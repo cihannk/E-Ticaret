@@ -21,7 +21,7 @@ namespace ETicaretWebApi.Application.Operations.CartOperations.Commands.CreateCa
             var product = _context.Products.FirstOrDefault(x => x.Id == Model.ProductId);
 
             if (product == null)
-                throw new InvalidOperationException("Product that you have trying to add cart is not exist");
+                throw new InvalidOperationException("Product that you have trying to add the cart is not exist");
 
             CartItem item = _mapper.Map<CartItem>(Model);
             item.Total = item.Amount * product.Price;

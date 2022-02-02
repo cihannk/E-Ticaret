@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using ETicaretWebApi.Application.Operations.CartOperations.Commands.CreateCartCartItem;
 using ETicaretWebApi.Application.Operations.CartOperations.Commands.CreateCartItem;
 using ETicaretWebApi.Application.Operations.CartOperations.Commands.DeleteCartItem;
+using ETicaretWebApi.Application.Operations.CartOperations.Commands.UserAddsProductToCart;
+using ETicaretWebApi.Application.Operations.CartOperations.Commands.UserDeletesProductFromCart;
 using ETicaretWebApi.Application.Operations.CartOperations.Queries.GetCart;
 using ETicaretWebApi.DbOperations;
 using FluentValidation;
@@ -41,6 +44,19 @@ namespace ETicaretWebApi.Controllers
 
             return Ok("CartItem successfully created");
         }
+        [HttpPost("cartCartItems")]
+        public IActionResult CreateCartCartItem([FromBody] CartCartItemModel model)
+        {
+            CreateCartCartItemCommand command = new CreateCartCartItemCommand(_context, _mapper);
+            command.Model = model;
+
+            //CreateCartItemCommandValidator validator = new CreateCartItemCommandValidator();
+            //validator.ValidateAndThrow(command);
+
+            command.Handle();
+
+            return Ok("CartCartItem successfully created");
+        }
         [HttpDelete("cartItems/{id}")]
         public IActionResult DeleteCartItem(int id)
         {
@@ -49,6 +65,24 @@ namespace ETicaretWebApi.Controllers
 
             command.Handle();
             return Ok($"CartItem {id} has successfully deleted");
+        }
+        [HttpPost("user/addProduct")]
+        public IActionResult UserAddProductToCart([FromBody] UserAddsProductToCartModel model)
+        {
+            UserAddsProductToCartCommand command = new UserAddsProductToCartCommand(_context, _mapper);
+            command.Model = model;
+
+            command.Handle();
+            return Ok();
+        }
+        [HttpPost("user/change")]
+        public IActionResult UserDeleteProductsFromCart([FromBody] UserChangesOrDeletesProductFromCartModel model)
+        {
+            UserChangesOrDeletesProductFromCartCommand command = new UserChangesOrDeletesProductFromCartCommand(_context, _mapper);
+            command.Model = model;
+
+            command.Handle();
+            return Ok();
         }
 
     }

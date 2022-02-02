@@ -122,3 +122,4 @@ C:\Users\Cihan\Desktop\projeler\eTicaret\server\ETicaret\ETicaretWebApi\obj\Debu
 C:\Users\Cihan\Desktop\projeler\eTicaret\server\ETicaret\ETicaretWebApi\obj\Debug\net6.0\ref\ETicaretWebApi.dll
 C:\Users\Cihan\Desktop\projeler\eTicaret\server\ETicaret\ETicaretWebApi\obj\Debug\net6.0\ETicaretWebApi.pdb
 C:\Users\Cihan\Desktop\projeler\eTicaret\server\ETicaret\ETicaretWebApi\obj\Debug\net6.0\ETicaretWebApi.genruntimeconfig.cache
+C:\Users\Cihan\Desktop\projeler\eTicaret\server\ETicaret\ETicaretWebApi\bin\Debug\net6.0\PasswordGenerator.dll

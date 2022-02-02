@@ -11,6 +11,13 @@ IConfiguration configuration = builder.Configuration;
 
 // Add services to the container.
 
+//builder.Services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+//{
+//    builder.WithOrigins("http://localhost:3000")
+//           .AllowAnyMethod()
+//           .AllowAnyHeader();
+//}));
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -18,14 +25,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ETicaretDbContext>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddSingleton<ILoggerService, ConsoleLoggerService>();
-//builder.Services.AddCors(options => options.AddPolicy("myclients", builder => builder.WithOrigins(configuration["FrontendIpAddress"], configuration["FrontendIpAddress"]).AllowAnyMethod().AllowAnyHeader()));
+
 
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(
                       builder =>
                       {
-                          builder.WithOrigins("http://localhost:3000");
+                          builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
                       });
 });
 

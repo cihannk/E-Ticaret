@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2DCpiRKh2T098n6oav1KsOFs7swW79SWjbtqlWkaF21D6ahQkDEICxYWfDEQSIWa1Xdi1wIDox3zlJMwtgT9oQ==",
+  "dgSpecHash": "scOvv4yBa1POuAJZagjaXuqaRyMo519H5AHmbOl2mSL0kPMM+TEFMS7pqc6f3YjlxZRJLLGP40kDUgAMZEOeLw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Cihan\\Desktop\\projeler\\eTicaret\\server\\ETicaret\\ETicaretWebApi\\ETicaretWebApi.csproj",
   "expectedPackageFiles": [
@@ -36,6 +36,7 @@
     "C:\\Users\\Cihan\\.nuget\\packages\\microsoft.win32.registry\\4.7.0\\microsoft.win32.registry.4.7.0.nupkg.sha512",
     "C:\\Users\\Cihan\\.nuget\\packages\\microsoft.win32.systemevents\\4.7.0\\microsoft.win32.systemevents.4.7.0.nupkg.sha512",
     "C:\\Users\\Cihan\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\Cihan\\.nuget\\packages\\passwordgenerator\\2.1.0\\passwordgenerator.2.1.0.nupkg.sha512",
     "C:\\Users\\Cihan\\.nuget\\packages\\swashbuckle.aspnetcore\\6.2.3\\swashbuckle.aspnetcore.6.2.3.nupkg.sha512",
     "C:\\Users\\Cihan\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\Cihan\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",

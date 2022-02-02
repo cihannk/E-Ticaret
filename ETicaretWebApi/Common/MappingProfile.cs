@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using ETicaretWebApi.Application.Operations.BrandOperations.Commands.CreateBrand;
 using ETicaretWebApi.Application.Operations.BrandOperations.Queries.GetBrands;
+using ETicaretWebApi.Application.Operations.CartOperations.Commands.CreateCartCartItem;
 using ETicaretWebApi.Application.Operations.CartOperations.Commands.CreateCartItem;
+using ETicaretWebApi.Application.Operations.CartOperations.Commands.UpdateCartItem;
 using ETicaretWebApi.Application.Operations.CategoryOperations.Commands.CreateCategory;
 using ETicaretWebApi.Application.Operations.CategoryOperations.Queries.GetCategories;
 using ETicaretWebApi.Application.Operations.MainPageCategoryOperations.Commands.CreateMainPageCategory;
@@ -36,6 +38,8 @@ namespace ETicaretWebApi.Common
             CreateMap<CreateBrandModel, Brand>();
             // for cart
             CreateMap<CreateCartItemModel, CartItem>();
+            CreateMap<CartCartItemModel, CartCartItem>();
+            CreateMap<UpdateCartItemModel,CartItem >();
             // for user
             CreateMap<CreateUserModel, User>();
 

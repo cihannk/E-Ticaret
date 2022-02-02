@@ -3,6 +3,7 @@ using ETicaretWebApi.Application.Abstract;
 using ETicaretWebApi.Application.Operations.CartOperations.Commands.CreateCart;
 using ETicaretWebApi.DbOperations;
 using ETicaretWebApi.Entitites;
+using ETicaretWebApi.Services.GeneratePassword;
 
 namespace ETicaretWebApi.Application.Operations.UserOperations.Commands.CreateUser
 {
@@ -25,10 +26,13 @@ namespace ETicaretWebApi.Application.Operations.UserOperations.Commands.CreateUs
             if (userToFind is not null)
                 throw new InvalidOperationException("User with same email already exist");
 
-            var user = _mapper.Map<User>(Model);
-            // user.password = Hash(password)
-            user.SignedUpDate = DateTime.Now;
-            user.AuthRoleId = 0;
+            var user = new User { Email= Model.Email, FirstName= Model.FirstName, LastName= Model.LastName, AuthRoleId=0, SignedUpDate= DateTime.Now };
+
+            byte[] passwordSalt, passwordHash;
+            HashingOperations.GenerateHash(Model.Password, out passwordSalt, out passwordHash);
+
+            user.Password = passwordHash;
+            user.Salt = passwordSalt;
 
             _context.Users.Add(user);
             _context.SaveChanges();
