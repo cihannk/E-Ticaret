@@ -8,6 +8,5 @@
     "\\ETicaretWebApi\\Application\\Operations\\ProductOperations\\Queries",
     "\\ETicaretWebApi\\Application\\Operations\\ProductOperations\\Queries\\GetProductsByCategory"
   ],
-  "SelectedNode": "\\ETicaret.sln",
   "PreviewInSolutionExplorer": false
 }

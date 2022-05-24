@@ -2,7 +2,13 @@ using ETicaretWebApi.Common;
 using ETicaretWebApi.DbOperations;
 using ETicaretWebApi.Middlewares;
 using ETicaretWebApi.Services;
+using ETicaretWebApi.Services.JWT;
+using ETicaretWebApi.Services.Payment;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using Stripe;
 using System.Reflection;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -24,7 +30,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ETicaretDbContext>();
 builder.Services.AddAutoMapper(typeof(MappingProfile));
-builder.Services.AddSingleton<ILoggerService, ConsoleLoggerService>();
+builder.Services.AddSingleton<ITokenOperations, JwtOperations>();
+builder.Services.AddScoped<IPaymentService, StripePaymentService>();
 
 
 builder.Services.AddCors(options =>
@@ -35,6 +42,27 @@ builder.Services.AddCors(options =>
                           builder.WithOrigins("http://localhost:3000").AllowAnyHeader().AllowAnyMethod();
                       });
 });
+
+var keyBytes = Encoding.UTF8.GetBytes(builder.Configuration.GetValue<string>("JwtSecret"));
+var securityKey = new SymmetricSecurityKey(keyBytes);
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opts =>
+{
+    opts.SaveToken = true;
+    opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+    {
+        ValidateActor = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidIssuer = "ETicaretApp",
+        ValidAudience = "ETicaretApp",
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = securityKey
+    };
+});
+
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe").GetValue<string>("SecretKey");
 
 var app = builder.Build();
 
@@ -49,11 +77,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
 //custom
+
 app.UseCustomExceptionMiddleware();
 
 app.Run();

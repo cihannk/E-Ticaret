@@ -6,12 +6,14 @@ using ETicaretWebApi.Application.Operations.MainPageCategoryOperations.Commands.
 using ETicaretWebApi.Application.Operations.MainPageCategoryOperations.Queries.GetMainPageCategories;
 using ETicaretWebApi.DbOperations;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETicaretWebApi.Controllers
 {
     [ApiController]
     [Route("Categories")]
+    [Authorize(Roles = "Admin")]
     public class CategoryController: Controller
     {
         private readonly ETicaretDbContext _context;
@@ -23,6 +25,7 @@ namespace ETicaretWebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult GetCategories()
         {
             GetCategoriesQuery query = new GetCategoriesQuery(_context, _mapper);
@@ -50,8 +53,9 @@ namespace ETicaretWebApi.Controllers
             return Ok();
         }
         // main page categories
+        [AllowAnonymous]
         [Route("mainpage")]
-        [HttpGet()]
+        [HttpGet]
         public IActionResult GetMainPageCategories ()
         {
             GetMainPageCategoriesQuery query = new GetMainPageCategoriesQuery(_context, _mapper);

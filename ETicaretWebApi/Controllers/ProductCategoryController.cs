@@ -3,6 +3,7 @@ using ETicaretWebApi.Application.Operations.ProductCategoryOperations.Commands.C
 using ETicaretWebApi.Application.Operations.ProductCategoryOperations.Queries.GetProductCategories;
 using ETicaretWebApi.DbOperations;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETicaretWebApi.Controllers
@@ -31,6 +32,7 @@ namespace ETicaretWebApi.Controllers
 
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateProductCategory([FromBody] CreateProductCategoryModel model)
         {
             CreateProductCategoryCommand command = new CreateProductCategoryCommand(_context, _mapper);

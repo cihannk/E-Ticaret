@@ -3,6 +3,7 @@ using ETicaretWebApi.Application.Operations.BrandOperations.Commands.CreateBrand
 using ETicaretWebApi.Application.Operations.BrandOperations.Queries.GetBrands;
 using ETicaretWebApi.DbOperations;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETicaretWebApi.Controllers
@@ -26,6 +27,7 @@ namespace ETicaretWebApi.Controllers
             return Ok(query.Handle());
         }
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult CreateBrand([FromBody] CreateBrandModel model)
         {
             CreateBrandCommand command = new CreateBrandCommand(_context, _mapper);

@@ -9,6 +9,7 @@
         public byte[] Password { get; set; }
         public byte[] Salt { get; set; }
         public int AuthRoleId { get; set; }
+        public AuthRole AuthRole { get; set; }
         public DateTime SignedUpDate { get; set; }
     }
 }

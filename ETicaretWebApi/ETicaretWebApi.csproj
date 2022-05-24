@@ -10,17 +10,20 @@
     <PackageReference Include="AutoMapper" Version="10.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="FluentValidation" Version="10.3.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="PasswordGenerator" Version="2.1.0" />
+    <PackageReference Include="Stripe.net" Version="39.107.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Application\Operations\ColorOperations\" />
-    <Folder Include="Application\Operations\SliderOperations\" />
-    <Folder Include="Application\Operations\UserOperations\Queries\" />
+    <Folder Include="Application\Operations\OrderOperations\Models\" />
+    <Folder Include="Application\Operations\OrderOperations\Queries\" />
+    <Folder Include="Application\Operations\UserOperations\Commands\" />
   </ItemGroup>
 
 </Project>

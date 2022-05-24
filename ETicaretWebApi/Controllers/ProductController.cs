@@ -9,6 +9,7 @@ using ETicaretWebApi.Application.ProductOperations.Commands.CreateProduct;
 using ETicaretWebApi.DbOperations;
 using ETicaretWebApi.Entitites;
 using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETicaretWebApi.Controllers
@@ -66,6 +67,7 @@ namespace ETicaretWebApi.Controllers
         
 
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public IActionResult AddProduct([FromBody] CreateProductModel product)
         {
 
@@ -80,6 +82,7 @@ namespace ETicaretWebApi.Controllers
 
         }
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult UpdateProduct([FromQuery] UpdateProductModel updateProductModel, int id)
         {
             UpdateProductCommand command = new UpdateProductCommand(_context);
@@ -94,6 +97,7 @@ namespace ETicaretWebApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteProduct(int id)
         {
             DeleteProductCommand command = new DeleteProductCommand(_context);
