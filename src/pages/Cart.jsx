@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Navbar from "../components/Navbar";
-import { productPageProducts } from "../fakeData";
 import { useState, useEffect } from "react";
-import {getCartFromUserId} from "../apiCalls/Cart";
+import { getCartFromUserId } from "../apiCalls/Cart";
 import Card from "../components/CartProductCard";
+import { getFromLocalStorage } from "../localStorageOpts";
 
 const Container = styled.div`
   padding: 50px 100px;
@@ -69,35 +69,34 @@ export default function Cart() {
   const [cart, setCart] = useState(null);
   const [calculateAgain, setCalculateAgain] = useState(false);
 
-  const getCartFromUserIdAsync = async (userId) =>{
-    const result = await getCartFromUserId(userId)
-    console.log(result.data);
-    setCart(result.data);
+  const getCartAsync = async () => {
+    let login = await getFromLocalStorage("login");
+    let cart = await getFromLocalStorage("cart");
+    setCart(cart);
   }
 
-  // const calculateTotal = () => {
-  //   getCartFromUserIdAsync(3);
-  // }
-
-  useEffect(()=> {
+  useEffect(() => {
+    getCartAsync();
+  }, [])
+  useEffect(() => {
     console.log("useEffectte");
-    getCartFromUserIdAsync(1002);
-  },[calculateAgain]);
+    getCartAsync();
+  }, [calculateAgain]);
 
 
   return (
     <div>
       <Navbar />
       <Announcement />
-      {cart && <Container>
+      {cart !== null ? <Container>
         <Left>
           <CartTitle>Sepetim</CartTitle>
           <ProductCartContainer>
             {cart.cartItems.map((cartItem) => (
               <Card
-                calculate = {setCalculateAgain}
+                calculate={setCalculateAgain}
                 cartId={cart.id}
-                productId = {cartItem.product.id}
+                productId={cartItem.product.id}
                 img={cartItem.product.imageUrl}
                 title={cartItem.product.title}
                 price={cartItem.product.price}
@@ -131,10 +130,14 @@ export default function Cart() {
             <Total>{`${cart.cartTotal} TL`}</Total>
             <ConfirmCart>Sepeti Onayla</ConfirmCart>
           </CartSummaryContainer>
-          
+
         </Right>
-      </Container>}
-      
+      </Container> :
+        <div>
+          Sepet Boş....
+        </div>
+      }
+
     </div>
   );
 }

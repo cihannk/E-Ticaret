@@ -14,6 +14,8 @@ import { useLocation } from "react-router-dom";
 import {userAddsProductToCart} from "../apiCalls/Cart"
 import {cartItem} from "../models/cart/cartItem";
 
+import { getFromLocalStorage } from "../localStorageOpts";
+
 const ProductContainer = styled.div`
   padding: 100px;
 `;
@@ -127,14 +129,16 @@ export default function Product() {
   };
   const handleClick = async() => {
     setOpenSnackbar(true);
+
     let newCartItem = cartItem;
     newCartItem.cartItems[0].amount = amount;
     newCartItem.cartItems[0].productId = productId;
-    newCartItem.userCartId = 1002;
-    console.log(newCartItem);
-    const response = await userAddsProductToCart(newCartItem);
-    console.log(response);
 
+    let login = await getFromLocalStorage("login");
+    console.log("getFromLocalStorage: ",login);
+
+    newCartItem.userCartId = login.id;
+    const response = await userAddsProductToCart(newCartItem);
   };
   const handleClose = () => {
     setOpenSnackbar(false);

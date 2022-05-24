@@ -15,10 +15,8 @@ export default function ProductCategories() {
     const [mainPageCategories, setMainPageCategories] = useState(null);
     useEffect(() => {
         if (mainPageCategories === null){
-            console.log("here");
             getMainPageCategoriesAsync();
         }
-        console.log(mainPageCategories);
     }, [mainPageCategories])
 
     const getMainPageCategoriesAsync = async () => {

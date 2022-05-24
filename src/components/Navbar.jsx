@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import SearchIcon from "@material-ui/icons/Search";
 import { Link } from "react-router-dom";
 import Person from "@material-ui/icons/Person";
 import Cart from "@material-ui/icons/ShoppingCart";
+import { getFromLocalStorage, removeFromLocalStorage } from "../localStorageOpts";
+
+import { IconButton, Menu, MenuItem } from "@material-ui/core";
+import { AccountCircle } from "@material-ui/icons";
 
 const Container = styled.div`
   height: 60px;
@@ -76,11 +80,36 @@ const UserLoggedButtonTitle = styled.span`
 `;
 
 export default function Navbar() {
-  const [user, setUser] = useState({
-    id: 0,
-    username: "cihannk",
-    email: "cihankavuk@gmail.com",
-  });
+  const [user, setUser] = useState(null);
+  ///
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = (property) => {
+    console.log(property);
+    switch (property) {
+      case ("logout"):
+        removeFromLocalStorage("login");
+        setUser(null);
+        break;
+      case ("profile"):
+        break;
+    }
+    setAnchorEl(null);
+  };
+  const getFromLocalStorageAsync = async () => {
+    var credentials = await getFromLocalStorage("login");
+    console.log("cre ", credentials);
+    setUser(credentials);
+  }
+  ///
+  useEffect(() => {
+    console.log("useEffect içinde");
+    getFromLocalStorageAsync();
+  }, []);
+
   return (
     <Container>
       <Wrapper>
@@ -98,16 +127,35 @@ export default function Navbar() {
         <Right>
           {user ? (
             <UserLoggedButtons>
-              <UserLoggedButton>
-                <Person />
-                <UserLoggedButtonTitle>Hesabım</UserLoggedButtonTitle>
-              </UserLoggedButton>
-              <Link to="/cart" style={{textDecoration:"none", color:"inherit"}}>
+              <Link to="/cart" style={{ textDecoration: "none", color: "inherit" }}>
                 <UserLoggedButton>
                   <Cart />
                   <UserLoggedButtonTitle>Sepetim</UserLoggedButtonTitle>
                 </UserLoggedButton>
-              </Link>
+              </Link> 
+
+              <UserLoggedButton onClick={handleMenu}>
+                <Person />
+                <UserLoggedButtonTitle>Hesabım</UserLoggedButtonTitle>
+              </UserLoggedButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={() => handleClose("profile")}>Profil</MenuItem>
+                <MenuItem onClick={() => handleClose("logout")}>Çıkış Yap</MenuItem>
+              </Menu>
             </UserLoggedButtons>
           ) : (
             <UserButtons>

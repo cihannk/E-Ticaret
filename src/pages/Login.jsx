@@ -1,6 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { login } from '../apiCalls/User';
+import { useHistory } from 'react-router-dom';
+import {writeLocalStorage} from "../localStorageOpts";
 
 const Container = styled.div`
   height: 100vh;
@@ -33,6 +36,10 @@ const Input = styled.input`
   margin-bottom: 16px;
   
 `
+const ErrorMessage = styled.span`
+  color: red;
+  font-weight: 400;
+`
 const SubmitButton = styled.button`
   padding: 10px 15px;
   font-family: inherit;
@@ -49,23 +56,44 @@ const SubmitButton = styled.button`
 `
 
 export default function Login() {
+  const history = useHistory();
   const [credentials, setCredentials] = useState({});
+  const [error, setError] = useState();
   const handleChange = (e) => {
     setCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
     // to db
-    
+    let response = await loginAsync(credentials);
+    if (response){
+      history.push("/");
+    }
+    else{
+      setError("Kullanıcı adı veya şifre yanlış");
+    }
   };
+
+  const loginAsync = async (loginModel) => {
+    let result;
+    try{
+      result =  await login(loginModel);
+    }catch(err){
+      console.log(err.message);
+      return false;
+    }
+    writeLocalStorage("login", result.data);
+    return true;
+  }
 
   return (
     <Container>
       <Wrapper>
         <Title>Giriş Yap</Title>
         <Form>
-          <Input name="username" required type="text" placeholder="username" onChange={handleChange}/>
-          <Input name="password" required type="password" placeholder="password" onChange={handleChange}/>
+          <Input name="email" required type="text" placeholder="Email" onChange={handleChange}/>
+          <Input name="password" required type="password" placeholder="Password" onChange={handleChange}/>
+          {error && <ErrorMessage>{error}</ErrorMessage>}
           <SubmitButton onClick={handleClick}>Login</SubmitButton>
         </Form>
       </Wrapper>

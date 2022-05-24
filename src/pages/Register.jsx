@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
+import {register} from "../apiCalls/User"; 
+import { useHistory } from 'react-router-dom';
 
 const Container = styled.div`
   height: 100vh;
@@ -32,6 +34,12 @@ const Input = styled.input`
   padding: 10px;
   margin-bottom: 16px;
 `;
+const FormError = styled.span`
+  color: red;
+  font-weight: 300;
+  font-size: 0.8em;
+  margin-bottom: 16px;
+`
 const SubmitButton = styled.button`
   padding: 10px 15px;
   font-family: inherit;
@@ -47,16 +55,34 @@ const SubmitButton = styled.button`
 `;
 
 export default function Register() {
+  const history = useHistory();
+  const [errorMessage, setErrorMessage] = useState();
   const [credentials, setCredentials] = useState({});
   const handleChange = (e) => {
     setCredentials((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  const handleClick = (e) => {
+  const handleClick = async (e) => {
     e.preventDefault();
     // to db
-    console.log("clic");
-
+    let result = await registerAsync(credentials);
+    if (result === "success"){
+      history.push("/");
+    }
+    else{
+      //console.log("result",result.response.data.error);
+      setErrorMessage(result.response.data.error);
+    }
   };
+
+  const registerAsync = async (loginModel) =>{
+     try{
+       await register(loginModel);
+     }
+     catch (err){
+       return err;
+     }
+     return "success";
+  }
   console.log(credentials);
   return (
     <Container>
@@ -64,26 +90,34 @@ export default function Register() {
         <Title>Kayıt Ol</Title>
         <Form>
           <Input
-            name="username"
+            name="firstname"
             required
             type="text"
-            placeholder="username"
+            placeholder="Ad"
+            onChange={handleChange}
+          />
+          <Input
+            name="lastname"
+            required
+            type="text"
+            placeholder="Soyad"
             onChange={handleChange}
           />
           <Input
             name="email"
             required
             type="email"
-            placeholder="email"
+            placeholder="Email"
             onChange={handleChange}
           />
           <Input
             name="password"
             required
             type="password"
-            placeholder="password"
+            placeholder="Parola"
             onChange={handleChange}
           />
+          {errorMessage && <FormError>{errorMessage}</FormError>}
           <SubmitButton onClick={handleClick}>Kayıt Ol</SubmitButton>
         </Form>
       </Wrapper>
