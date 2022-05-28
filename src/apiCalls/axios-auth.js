@@ -2,8 +2,9 @@ import axios from "axios";
 import {API_URL} from "./constants";
 
 const instance = axios.create({
-    baseURL: API_URL
+    baseURL: API_URL,
 });
+
 
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 axios.defaults.headers.get['Accepts'] = 'application/json'

@@ -5,6 +5,8 @@ import {
   Route,
   Redirect,
 } from "react-router-dom";
+import { UserProvider } from "./contexts/CartContext";
+import Profile from "./pages/Profile";
 
 const Home = lazy(() => import("./pages/Home"));
 const Product = lazy(() => import("./pages/Product"));
@@ -17,46 +19,54 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   return (
     <Router>
-      <Switch>
-        <Route path="/login" exact>
+      <UserProvider>
+        <Switch>
+          <Route path="/login" exact>
+            {loggedIn ? (
+              <Redirect to="/" />
+            ) : (
+              <Suspense fallback={<span>loading...</span>}>
+                <Login />
+              </Suspense>
+            )}
+          </Route>
+          <Route path="/register" exact>
           {loggedIn ? (
-            <Redirect to="/" />
-          ) : (
+              <Redirect to="/" />
+            ) : (
+              <Suspense fallback={<span>loading...</span>}>
+                <Register />
+              </Suspense>
+            )}
+          </Route>
+          <Route path="/" exact>
             <Suspense fallback={<span>loading...</span>}>
-              <Login />
+              <Home />
             </Suspense>
-          )}
-        </Route>
-        <Route path="/register" exact>
-        {loggedIn ? (
-            <Redirect to="/" />
-          ) : (
+          </Route>
+          <Route path="/product/:id" exact>
             <Suspense fallback={<span>loading...</span>}>
-              <Register />
+              <Product />
             </Suspense>
-          )}
-        </Route>
-        <Route path="/" exact>
-          <Suspense fallback={<span>loading...</span>}>
-            <Home />
-          </Suspense>
-        </Route>
-        <Route path="/product/:id" exact>
-          <Suspense fallback={<span>loading...</span>}>
-            <Product />
-          </Suspense>
-        </Route>
-        <Route path="/products" >
-          <Suspense fallback={<span>loading...</span>}>
-            <Products />
-          </Suspense>
-        </Route>
-        <Route path="/cart" exact>
-          <Suspense fallback={<span>loading...</span>}>
-            <Cart />
-          </Suspense>
-        </Route>
-      </Switch>
+          </Route>
+          <Route path="/products" >
+            <Suspense fallback={<span>loading...</span>}>
+              <Products />
+            </Suspense>
+          </Route>
+          <Route path="/cart" exact>
+            <Suspense fallback={<span>loading...</span>}>
+              <Cart />
+            </Suspense>
+          </Route>
+          <Route path="/profile" exact>
+            <Suspense fallback={<span>loading...</span>}>
+              <Profile />
+            </Suspense>
+          </Route>
+        </Switch>
+      </UserProvider>
+      
     </Router>
   );
 }

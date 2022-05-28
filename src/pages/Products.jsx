@@ -10,6 +10,7 @@ import {
   getProducts,
   getProductsByCategoryName,
   getProductsByCategoryNameAndQueries,
+  getProductsByProductName
 } from "../apiCalls/Product";
 import { getBrands } from "../apiCalls/Brand";
 import BlankProductPage from "../components/BlankProductPage";
@@ -125,13 +126,16 @@ export default function Products() {
   const [filters, setFilters] = useState({checkedBrands: [], priceFilter1: 0, priceFilter2: 0});
 
   useEffect(() => {
-    console.log("useEffect icinde");
     let pathName = location.pathname;
     pathName = pathName.split("/");
     setCategory(pathName[3]);
     if (pathName[2] === "category") {
       getProductsByCategoryNameAsync(pathName[3]);
-    } else {
+    }
+    else if (pathName[2] !== null){
+      getProductsByProductNameAsync(pathName[2]);
+    }
+     else {
       getProductsAsync();
     }
   }, [location]);
@@ -168,6 +172,12 @@ export default function Products() {
     getBrandsAsync(productsQuery.data);
     console.log(products);
   };
+
+  const getProductsByProductNameAsync = async (productname) => {
+    const result = await getProductsByProductName(productname);
+    setProducts(result.data);
+    getBrandsAsync(result.data);
+  }
 
   const getBrandsAsync = async (products) => {
     let allBrandIds = [];

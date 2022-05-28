@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useUser } from "../contexts/CartContext";
 import styled from "styled-components";
 import { Remove, Add, DeleteOutline } from "@material-ui/icons";
 import {changeOrDeleteCartWithUserId} from "../apiCalls/Cart";
 import { changeCartItem } from "../models/cart/changeCartItem";
+import { addToCart, getCartCount, removeFromCart } from "../localStorageOpts";
 
 const ProductCard = styled.div`
   //padding: 6px 12px;
@@ -57,40 +59,37 @@ const DeleteButton = styled.div`
   cursor: pointer;
 `;
 
-export default function CartProductCard({ calculate, productId, cartId, img, title, price, amount }) {
+export default function CartProductCard({ calculate, product, amount }) {
   const [counter, setCounter] = useState(amount);
+  let context = useUser();
+
   const handleCounter = (way) => {
     if (way === "+") {
-      changeOrDeleteCartWithUserIdAsync(counter + 1);
+      addToCart({product, amount: 1});
       setCounter((prev) => prev + 1);
-      
-    } else {
+      calculate(prev => !prev);
+    } 
+    else {
       if (counter > 1) {
-        changeOrDeleteCartWithUserIdAsync(counter - 1);
+        removeFromCart(product.id, 1);
         setCounter((prev) => prev - 1);
+        calculate(prev => !prev);
       }
     }
   };
-  const handleDelete = () =>{
-    changeOrDeleteCartWithUserIdAsync(0);
-  }
-
-  const changeOrDeleteCartWithUserIdAsync = async (amount) => {
+  const handleDelete = async () =>{
+    await removeFromCart(product.id, counter);
+    let cartCount = await getCartCount();
+    console.log(cartCount);
+    context.setCartCount(cartCount);
     calculate(prev => !prev);
-    let item = changeCartItem;
-    item.amount = amount;
-    item.productId = productId;
-    item.userCartId = cartId;
-
-    let card = await changeOrDeleteCartWithUserId(item);
-    console.log(card);
-    return card;
   }
+
   return (
     <ProductCard>
-      <ProductCardImg src={img} />
+      <ProductCardImg src={product.imageUrl} />
       <ProductCardTitle>
-        {title < 65 ? title : (title = title.slice(0, 62) + "...")}
+        {product.title < 65 ? product.title : (product.title.slice(0, 62) + "...")}
       </ProductCardTitle>
       <AmountButtonContainer>
         <AmountButton onClick={() => handleCounter("-")}>
@@ -101,7 +100,7 @@ export default function CartProductCard({ calculate, productId, cartId, img, tit
           <Add />
         </AmountButton>
       </AmountButtonContainer>
-      <Price>{price} TL</Price>
+      <Price>{product.price} TL</Price>
       <DeleteButton onClick={handleDelete}>
         <DeleteOutline/>
       </DeleteButton>

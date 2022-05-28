@@ -10,11 +10,11 @@ import CloseIcon from "@material-ui/icons/Close";
 import { getProduct } from "../apiCalls/Product";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-
-import {userAddsProductToCart} from "../apiCalls/Cart"
 import {cartItem} from "../models/cart/cartItem";
 
-import { getFromLocalStorage } from "../localStorageOpts";
+import { addToCart, getCartCount } from "../localStorageOpts";
+
+import { useUser } from "../contexts/CartContext";
 
 const ProductContainer = styled.div`
   padding: 100px;
@@ -103,23 +103,40 @@ const AddCartButton = styled.button`
 `;
 
 export default function Product() {
+
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [amount, setAmount] = useState(1);
+  const [buttonDisabled, setButtonDisabled] = useState(null);
   const [product, setProduct] = useState(null);
-  const [productId, setProductId] = useState(null);
   const location = useLocation();
 
-  useEffect(()=>{
-    let locationPath = location.pathname;
-    let productId = locationPath.split("/")[2];
-    setProductId(productId);
-    getProductAsync(productId);
-  },[])
+  const context = useUser();
 
   const getProductAsync = async (id) =>{
     let product = await getProduct(id);
     setProduct(product.data);
   }
+
+  const setButtonState = (claims) => {
+    if (claims === null){
+      setButtonDisabled(true);
+    }else{
+      setButtonDisabled(false);
+    }
+  }
+
+  useEffect(()=>{
+    console.log("useffectte");
+    let locationPath = location.pathname;
+    console.log(locationPath);
+    let productId = locationPath.split("/")[2];
+    console.log(productId);
+    console.log(context.claims);
+    getProductAsync(productId);
+    setButtonState(context.claims);
+  },[context.claims])
+
+  
   const handleAmount = (way) => {
     if (way === "+") {
       setAmount((prev) => prev + 1);
@@ -131,14 +148,11 @@ export default function Product() {
     setOpenSnackbar(true);
 
     let newCartItem = cartItem;
-    newCartItem.cartItems[0].amount = amount;
-    newCartItem.cartItems[0].productId = productId;
-
-    let login = await getFromLocalStorage("login");
-    console.log("getFromLocalStorage: ",login);
-
-    newCartItem.userCartId = login.id;
-    const response = await userAddsProductToCart(newCartItem);
+    newCartItem.amount = amount;
+    newCartItem.product = product;
+    await addToCart(newCartItem);
+    let cartCount = await getCartCount();
+    context.setCartCount(cartCount);
   };
   const handleClose = () => {
     setOpenSnackbar(false);
@@ -188,7 +202,7 @@ export default function Product() {
                   <Add />
                 </AmountButton>
               </AmountButtonContainer>
-              <AddCartButton onClick={handleClick}>Sepete Ekle</AddCartButton>
+              {buttonDisabled !== null ? <AddCartButton disabled={buttonDisabled} onClick={handleClick}>Sepete Ekle</AddCartButton> : <></>}
               <Snackbar
                 open={openSnackbar}
                 autoHideDuration={2000}

@@ -4,11 +4,12 @@ import SearchIcon from "@material-ui/icons/Search";
 import { Link } from "react-router-dom";
 import Person from "@material-ui/icons/Person";
 import Cart from "@material-ui/icons/ShoppingCart";
-import { getFromLocalStorage, removeFromLocalStorage } from "../localStorageOpts";
+import { getCartCount, getFromLocalStorage, removeFromLocalStorage } from "../localStorageOpts";
 
-import { IconButton, Menu, MenuItem } from "@material-ui/core";
-import { AccountCircle } from "@material-ui/icons";
-
+import { Menu, MenuItem } from "@material-ui/core";
+import Badge from "@mui/material/Badge";
+import { useUser } from "../contexts/CartContext";
+import { useHistory } from "react-router-dom";
 const Container = styled.div`
   height: 60px;
 `;
@@ -81,8 +82,14 @@ const UserLoggedButtonTitle = styled.span`
 
 export default function Navbar() {
   const [user, setUser] = useState(null);
+  const [cartCount, setCartCount] = useState(null);
+  const [searchContainer, setSearchContainer] = useState("");
   ///
   const [anchorEl, setAnchorEl] = useState(null);
+
+  const history = useHistory();
+  const context = useUser();
+
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -93,30 +100,43 @@ export default function Navbar() {
       case ("logout"):
         removeFromLocalStorage("login");
         setUser(null);
+        window.location.reload();
         break;
       case ("profile"):
+        history.push("/profile");
         break;
     }
     setAnchorEl(null);
   };
   const getFromLocalStorageAsync = async () => {
     var credentials = await getFromLocalStorage("login");
-    console.log("cre ", credentials);
     setUser(credentials);
+  }
+  const setCartCountAsync = async () => {
+    let count = await getCartCount();
+    context.setCartCount(count);
+  }
+  const handleSearchClick = () => {
+    if (searchContainer.length > 0)
+      history.push("/products/"+searchContainer);
   }
   ///
   useEffect(() => {
-    console.log("useEffect içinde");
     getFromLocalStorageAsync();
+    setCartCountAsync();
   }, []);
+
+  useEffect(()=> {
+    setCartCount(context.cartCount);
+  },[context.cartCount])
 
   return (
     <Container>
       <Wrapper>
         <Left>
           <SearchContainer>
-            <Search />
-            <SearchIcon style={{ color: "gray", width: "20px" }} />
+            <Search onChange={e => setSearchContainer(e.target.value)}/>
+            <SearchIcon onClick={handleSearchClick} style={{ color: "gray", width: "20px" }} />
           </SearchContainer>
         </Left>
         <Mid>
@@ -129,7 +149,10 @@ export default function Navbar() {
             <UserLoggedButtons>
               <Link to="/cart" style={{ textDecoration: "none", color: "inherit" }}>
                 <UserLoggedButton>
-                  <Cart />
+                  <Badge badgeContent={cartCount} color="primary">
+                    <Cart />
+                  </Badge>
+                  
                   <UserLoggedButtonTitle>Sepetim</UserLoggedButtonTitle>
                 </UserLoggedButton>
               </Link> 

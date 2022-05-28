@@ -1,4 +1,12 @@
 import axios from "./axios-auth";
+import {getFromLocalStorage} from "../localStorageOpts";
+
+// let token = "";
+
+// const initToken = async () => {
+//     let result = await getFromLocalStorage("login");
+//     token = result.token;
+// }
 
 export const getProduct = async (productId) => {
     let products = await axios.get("/Products/" + productId);
@@ -6,6 +14,11 @@ export const getProduct = async (productId) => {
 }
 export const getProductsByCategoryName = async (catName) => {
     let products = await axios.get("/Products/category/" + catName);
+    return products;
+}
+export const getProductsByProductName = async (name) => {
+    // await initToken();
+    let products = await axios.get(`/Products/Search/${name}`);
     return products;
 }
 export const getProductsByCategoryNameAndQueries = async (catName="",filters) => {

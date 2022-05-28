@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { login } from '../apiCalls/User';
 import { useHistory } from 'react-router-dom';
 import {writeLocalStorage} from "../localStorageOpts";
+import { useUser } from '../contexts/CartContext';
 
 const Container = styled.div`
   height: 100vh;
@@ -56,6 +57,7 @@ const SubmitButton = styled.button`
 `
 
 export default function Login() {
+  const context = useUser();
   const history = useHistory();
   const [credentials, setCredentials] = useState({});
   const [error, setError] = useState();
@@ -83,6 +85,7 @@ export default function Login() {
       return false;
     }
     writeLocalStorage("login", result.data);
+    await context.setClaims();
     return true;
   }
 
