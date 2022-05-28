@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using ETicaretWebApi.Application.Operations.OrderOperations;
+using ETicaretWebApi.Application.Operations.OrderOperations.Queries.GetUserOrders;
 using ETicaretWebApi.DbOperations;
 using ETicaretWebApi.Extensions;
 using ETicaretWebApi.Services.Payment;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Stripe;
 
 namespace ETicaretWebApi.Controllers
 {
@@ -24,17 +26,49 @@ namespace ETicaretWebApi.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost("Pay")]
-        public IActionResult Pay(PaymentModel model)
+        [HttpGet("Secret/{price}")]
+        public IActionResult GetClientSecret(decimal price)
         {
-            ProcessOrder processOrderCommand = new ProcessOrder(_paymentService, _context, _mapper);
-            if (ModelState.IsValid)
+            var options = new PaymentIntentCreateOptions
             {
+                Amount = (long)Math.Round(price * 100, 2),
+                Currency = "try",
+                AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
+                {
+                    Enabled = true,
+                },
+            };
+            var service = new PaymentIntentService();
+            var intent = service.Create(options);
+
+            return Ok(new { id = intent.Id, client_secret = intent.ClientSecret });
+        }
+
+        [HttpPost("Pay")]
+        public IActionResult Pay([FromBody] PaymentModel model)
+        {
+            var service = new PaymentIntentService();
+            var paymentIntent = service.Get(model.IntentId);
+
+            if (paymentIntent.Status == "succeeded")
+            {
+                paymentIntent = null;
+                ProcessOrder processOrderCommand = new ProcessOrder(_context, _mapper);
+
                 processOrderCommand.Model = model;
                 processOrderCommand.Handle(User.Identity.GetId());
                 return Ok("Ödeme başarılı oldu");
             }
-            return BadRequest(ModelState);
+            paymentIntent = null;
+            return BadRequest("Ödeme başarısız oldu");
+        }
+        [HttpGet("User")]
+        public IActionResult GetUserOrders()
+        {
+            int id = User.Identity.GetId();
+            GetUserOrdersQuery query = new GetUserOrdersQuery(_context);
+            query.UserId = id;
+            return Ok(query.Handle());
         }
     }
 }

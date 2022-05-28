@@ -22,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Application\Operations\ColorOperations\" />
     <Folder Include="Application\Operations\OrderOperations\Models\" />
-    <Folder Include="Application\Operations\OrderOperations\Queries\" />
     <Folder Include="Application\Operations\UserOperations\Commands\" />
   </ItemGroup>
 

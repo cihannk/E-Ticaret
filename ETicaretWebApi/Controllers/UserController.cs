@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ETicaretWebApi.Application.Operations.UserOperations.Queries.CreateUser;
+using ETicaretWebApi.Application.Operations.UserOperations.Queries.GetUser;
 using ETicaretWebApi.Application.Operations.UserOperations.Queries.LoginUser;
 using ETicaretWebApi.DbOperations;
 using ETicaretWebApi.Services.JWT;
@@ -11,7 +12,6 @@ namespace ETicaretWebApi.Controllers
 {
     [ApiController]
     [Route("[Controller]s")]
-    [Authorize(Roles = "Admin")]
     public class UserController : Controller
     {
         private readonly IMapper _mapper;
@@ -25,7 +25,6 @@ namespace ETicaretWebApi.Controllers
             _tokenOperations = tokenOperations;
         }
 
-        [AllowAnonymous]
         [HttpPost("Register")]
         public IActionResult CreateUser([FromBody] CreateUserModel model)
         {
@@ -39,7 +38,6 @@ namespace ETicaretWebApi.Controllers
 
             return Ok(new { token = token });
         }
-        [AllowAnonymous]
         [HttpPost("Login")]
         public IActionResult LoginUser([FromBody] LoginUserModel model)
         {
@@ -51,6 +49,14 @@ namespace ETicaretWebApi.Controllers
             string token = query.Handle();
 
             return Ok(new { token = token});
+        }
+        [Authorize]
+        [HttpGet("Profile/{userId}")]
+        public IActionResult GetProfile(int userId)
+        {
+            GetUserQuery query = new GetUserQuery(_context, _mapper);
+            query.UserId = userId;
+            return Ok(query.Handle());
         }
     }
 }

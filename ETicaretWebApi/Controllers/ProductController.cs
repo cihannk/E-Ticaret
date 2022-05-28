@@ -5,6 +5,7 @@ using ETicaretWebApi.Application.Operations.ProductOperations.Commands.UpdatePro
 using ETicaretWebApi.Application.Operations.ProductOperations.Queries.GetProduct;
 using ETicaretWebApi.Application.Operations.ProductOperations.Queries.GetProducts;
 using ETicaretWebApi.Application.Operations.ProductOperations.Queries.GetProductsByCategory;
+using ETicaretWebApi.Application.Operations.ProductOperations.Queries.SearchProducts;
 using ETicaretWebApi.Application.ProductOperations.Commands.CreateProduct;
 using ETicaretWebApi.DbOperations;
 using ETicaretWebApi.Entitites;
@@ -109,6 +110,14 @@ namespace ETicaretWebApi.Controllers
             command.Handle();
             return Ok("Product has successfully deleted");
 
+        }
+        [HttpGet("Search/{name}")]
+        public IActionResult Search(string name)
+        {
+            SearchProductsQuery query = new SearchProductsQuery(_context, _mapper);
+            query.Name = name;
+
+            return Ok(query.Handle());
         }
     }
 }

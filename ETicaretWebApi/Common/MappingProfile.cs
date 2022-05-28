@@ -12,6 +12,7 @@ using ETicaretWebApi.Application.Operations.ProductOperations.Queries.GetProduct
 using ETicaretWebApi.Application.Operations.ProductOperations.Queries.GetProducts;
 using ETicaretWebApi.Application.Operations.SliderOperations.Commands.CreateSlider;
 using ETicaretWebApi.Application.Operations.UserOperations.Queries.CreateUser;
+using ETicaretWebApi.Application.Operations.UserOperations.Queries.GetUser;
 using ETicaretWebApi.Application.ProductOperations.Commands.CreateProduct;
 using ETicaretWebApi.Entitites;
 
@@ -38,6 +39,7 @@ namespace ETicaretWebApi.Common
             CreateMap<CreateBrandModel, Brand>();
             // for user
             CreateMap<CreateUserModel, User>().ForMember(model => model.Password, opt => opt.Ignore());
+            CreateMap<User, UserModel>();
             // for slider
             CreateMap<CreateSliderModel, Slider>();
             // for cartItem
